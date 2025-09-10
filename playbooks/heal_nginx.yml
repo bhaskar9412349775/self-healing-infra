@@ -1,0 +1,17 @@
+- name: Auto-heal NGINX
+  hosts: localhost
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Ensure nginx installed
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+

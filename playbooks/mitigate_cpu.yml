@@ -1,0 +1,17 @@
+- name: Mitigate High CPU
+  hosts: localhost
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Kill stress-ng if running
+      command: pkill -f stress-ng
+      register: kill_stress
+      failed_when: false
+
+    - name: Log mitigation
+      lineinfile:
+        path: /var/log/highcpu-mitigated.log
+        line: "Mitigated high CPU at {{ ansible_date_time.iso8601 }}"
+        create: yes
+        mode: '0644'
+
